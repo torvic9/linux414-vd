@@ -1,0 +1,11 @@
+--- a/kernel/Kbuild	2017-09-20 01:31:02.000000000 +0200
++++ b/kernel/Kbuild	2017-09-30 10:53:10.653957193 +0200
+@@ -59,7 +59,7 @@
+ EXTRA_CFLAGS += -I$(src)/common/inc
+ EXTRA_CFLAGS += -I$(src)
+ EXTRA_CFLAGS += -Wall -MD $(DEFINES) $(INCLUDES) -Wsign-compare -Wno-cast-qual -Wno-error
+-EXTRA_CFLAGS += -D__KERNEL__ -DMODULE -DNVRM -DNV_VERSION_STRING=\"384.90\" -Wno-unused-function -Wuninitialized -fno-strict-aliasing -mno-red-zone -mcmodel=kernel -DNV_UVM_ENABLE -Wno-sign-compare -Wno-format-extra-args
++EXTRA_CFLAGS += -D__KERNEL__ -DMODULE -DNVRM -DNV_VERSION_STRING=\"384.90\" -O3 -march=native -Wno-unused-function -Wuninitialized -fno-strict-aliasing -mno-red-zone -mcmodel=kernel -DNV_UVM_ENABLE -Wno-sign-compare -Wno-format-extra-args
+ EXTRA_CFLAGS += $(call cc-option,-Werror=undef,)
+ 
+ #

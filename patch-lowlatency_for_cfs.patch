@@ -1,0 +1,53 @@
+--- a/kernel/sched/fair.c	2017-11-12 19:46:13.000000000 +0100
++++ b/kernel/sched/fair.c	2017-11-14 22:27:18.847247595 +0100
+@@ -51,8 +51,8 @@
+  *
+  * (default: 6ms * (1 + ilog(ncpus)), units: nanoseconds)
+  */
+-unsigned int sysctl_sched_latency			= 6000000ULL;
+-unsigned int normalized_sysctl_sched_latency		= 6000000ULL;
++unsigned int sysctl_sched_latency			= 3000000ULL;
++unsigned int normalized_sysctl_sched_latency		= 3000000ULL;
+ 
+ /*
+  * The initial- and re-scaling of tunables is configurable
+@@ -72,13 +72,13 @@
+  *
+  * (default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
+  */
+-unsigned int sysctl_sched_min_granularity		= 750000ULL;
+-unsigned int normalized_sysctl_sched_min_granularity	= 750000ULL;
++unsigned int sysctl_sched_min_granularity		= 300000ULL;
++unsigned int normalized_sysctl_sched_min_granularity	= 300000ULL;
+ 
+ /*
+  * This value is kept at sysctl_sched_latency/sysctl_sched_min_granularity
+  */
+-static unsigned int sched_nr_latency = 8;
++static unsigned int sched_nr_latency = 10;
+ 
+ /*
+  * After fork, child runs first. If set to 0 (default) then
+@@ -95,10 +95,10 @@
+  *
+  * (default: 1 msec * (1 + ilog(ncpus)), units: nanoseconds)
+  */
+-unsigned int sysctl_sched_wakeup_granularity		= 1000000UL;
+-unsigned int normalized_sysctl_sched_wakeup_granularity	= 1000000UL;
++unsigned int sysctl_sched_wakeup_granularity		= 600000UL;
++unsigned int normalized_sysctl_sched_wakeup_granularity	= 600000UL;
+ 
+-const_debug unsigned int sysctl_sched_migration_cost	= 500000UL;
++const_debug unsigned int sysctl_sched_migration_cost	= 300000UL;
+ 
+ #ifdef CONFIG_SMP
+ /*
+@@ -121,7 +121,7 @@
+  *
+  * (default: 5 msec, units: microseconds)
+  */
+-unsigned int sysctl_sched_cfs_bandwidth_slice		= 5000UL;
++unsigned int sysctl_sched_cfs_bandwidth_slice		= 3000UL;
+ #endif
+ 
+ /*

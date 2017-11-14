@@ -1,0 +1,39 @@
+diff --git a/Makefile b/Makefile
+index c8e89a0..a9e0b2c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -638,12 +638,16 @@ endif
+ ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+ KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+ else
++ifdef CONFIG_CC_OPTIMIZE_HARDER
++KBUILD_CFLAGS	+= -O3 $(call cc-disable-warning,maybe-uninitialized,)
++else
+ ifdef CONFIG_PROFILE_ALL_BRANCHES
+ KBUILD_CFLAGS	+= -O2 $(call cc-disable-warning,maybe-uninitialized,)
+ else
+ KBUILD_CFLAGS   += -O2
+ endif
+ endif
++endif
+ 
+ KBUILD_CFLAGS += $(call cc-ifversion, -lt, 0409, \
+ 			$(call cc-disable-warning,maybe-uninitialized,))
+diff --git a/init/Kconfig b/init/Kconfig
+index 34407f1..48ab100 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1331,6 +1331,13 @@ config CC_OPTIMIZE_FOR_PERFORMANCE
+ 	  with the "-O2" compiler flag for best performance and most
+ 	  helpful compile-time warnings.
+ 
++config CC_OPTIMIZE_HARDER
++	bool "Optimize harder"
++	help
++	  This option will pass "-O3" to your compiler resulting in a
++	  larger and faster kernel. The more complex optimizations also
++	  increase compilation time and may affect stability.
++
+ config CC_OPTIMIZE_FOR_SIZE
+ 	bool "Optimize for size"
+ 	help
