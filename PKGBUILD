@@ -46,10 +46,11 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-new_config_option_for_O3.patch'
         'patch-blkrq.patch'
         '4.14-sched-MuQSS_162.patch'
+	'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
-        '55803.patch::https://patchwork.kernel.org/patch/9987315/raw/'
+        #'55803.patch::https://patchwork.kernel.org/patch/9987315/raw/'
         # MANJARO Patches
         # Zen temperature
         '0001-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/682/1'
@@ -61,7 +62,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '2dc86272e55d31c55bdeaa47b3d44fbd6235a396e37d82c2b47aa27f6ba82ee3'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
-            'aa6c4eaf40ec768c898214288a1e3d30d7f1c203f22f39e82c0407bd9c76e48c'
+            '9dcb05dc82c629709b5de7d82215c088aa7a2bf375a5b18bfd1b638d1236e5ab'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -72,9 +73,9 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'd3ea49085ea47c0ec65ca4e25847889ecf87ef7452a7d9d147ca2c1e3ecb9cca'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             '107cd35a6e3d1b21816eb446940a1793990b8e42feb053147962e9e6ecc70762'
+            'c94f9113289d1fee02cba65a390b3abfba7b9b5255dcc743d2df6e34bb633aa2'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
-            'afff52c9e93b7a6b3fe9b83395782ad21b46cd24d9491ea0e542fc7af3a23c0f'
             'a1b1c30d53d0a7ffe2b84331f634388807489b807b20cc24041e2591f7da2ec1'
             'df9ff4580281ce431b42490a69f51d0a839471983930044bebe268aaee70c5ad'
             '009da98553e3c9b5d452b7850aac25b9e81fa39de9f2aa33744c012c1a912006')
@@ -85,7 +86,7 @@ prepare() {
   cd "${srcdir}/linux-${_basekernel}"
 
   # add upstream patch
-  #patch -p1 -i "${srcdir}/patch-${pkgver}"
+  patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
@@ -99,12 +100,14 @@ prepare() {
 
   # Arch patches
   # https://bugs.archlinux.org/task/55803
-  patch -Np1 -i "${srcdir}/55803.patch"
+  #patch -Np1 -i "${srcdir}/55803.patch"
 
   # add BFQ scheduler
   msg "Fix naming schema in BFQ-MQ patch"
-  sed -i -e "s|EXTRAVERSION = -rc8|EXTRAVERSION =|g" \
+  sed -i -e "s|SUBLEVEL = 0|SUBLEVEL = ${_sub}|g" \
+      -i -e "s|EXTRAVERSION = -rc8|EXTRAVERSION =|g" \
       -i -e "s|EXTRAVERSION = -rc8-bfq-mq|EXTRAVERSION =|g" \
+      -i -e "s|NAME = Fearless Coyote|NAME = Petit Gorille|g" \
       "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
   #"${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
   #patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
@@ -117,6 +120,7 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-new_config_option_for_O3.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
+  patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
 
