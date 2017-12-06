@@ -14,9 +14,9 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=3
+_sub=4
 pkgver=${_basekernel}.${_sub}
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -47,6 +47,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-blkrq.patch'
         '4.14-sched-MuQSS_162.patch'
 	'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
+	'0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
@@ -59,7 +60,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'e13995c11d0c2d3379c887666dbfaca619200fb8853db6d5d67f97d47fd959b7'
+            'e9dcf9aad5977289940cd6e3762af02b87a725ba6c1a9f4af86958dc621e3a84'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '9dcb05dc82c629709b5de7d82215c088aa7a2bf375a5b18bfd1b638d1236e5ab'
@@ -74,6 +75,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             '107cd35a6e3d1b21816eb446940a1793990b8e42feb053147962e9e6ecc70762'
             'c94f9113289d1fee02cba65a390b3abfba7b9b5255dcc743d2df6e34bb633aa2'
+            'da0ae487246b89e91d82b6999877634fa5545c10eb8783a3df02918e039b645d'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             'a1b1c30d53d0a7ffe2b84331f634388807489b807b20cc24041e2591f7da2ec1'
@@ -126,6 +128,7 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
   patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
+  patch -Np1 -i "${srcdir}/0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
 
