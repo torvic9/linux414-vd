@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=4
+_sub=5
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -45,6 +45,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-lowlatency_for_cfs.patch'
         'patch-new_config_option_for_O3.patch'
         'patch-blkrq.patch'
+	'patch-fix_useafterfree_dccp.patch'
         '4.14-sched-MuQSS_162.patch'
 	'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
 	'0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
@@ -60,7 +61,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'e9dcf9aad5977289940cd6e3762af02b87a725ba6c1a9f4af86958dc621e3a84'
+            'd86eb2fd1c424fec9fbb12afacf7b783756651f5d7d0cf7ac71c3fbbbedddc9c'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '9dcb05dc82c629709b5de7d82215c088aa7a2bf375a5b18bfd1b638d1236e5ab'
@@ -73,6 +74,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             'd3ea49085ea47c0ec65ca4e25847889ecf87ef7452a7d9d147ca2c1e3ecb9cca'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
+            '0702ac9de665383e125c7d321adc4a1ccf10a04f18272d7804b973cd48f36aa0'
             '107cd35a6e3d1b21816eb446940a1793990b8e42feb053147962e9e6ecc70762'
             'c94f9113289d1fee02cba65a390b3abfba7b9b5255dcc743d2df6e34bb633aa2'
             'da0ae487246b89e91d82b6999877634fa5545c10eb8783a3df02918e039b645d'
@@ -81,7 +83,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'a1b1c30d53d0a7ffe2b84331f634388807489b807b20cc24041e2591f7da2ec1'
             'df9ff4580281ce431b42490a69f51d0a839471983930044bebe268aaee70c5ad'
             '009da98553e3c9b5d452b7850aac25b9e81fa39de9f2aa33744c012c1a912006')
-	    
+
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
   '647F28654894E3BD457199BE38DBBDC86092693E'  # Greg Kroah-Hartman
@@ -126,6 +128,7 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-new_config_option_for_O3.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
+  patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
   patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
   patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
   patch -Np1 -i "${srcdir}/0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch"
