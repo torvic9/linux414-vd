@@ -3,15 +3,17 @@
 This is in most parts the same as the official Manjaro kernel.
 
 ### A few things were removed: 
-- modules for very old or specialised hardware (analog TV, ISDN, amateur RADIO, old SCSI etc.) 
+- modules for very old or specialised hardware (analog TV, ISDN, amateur radio, old SCSI and PATA, FC, IB etc.) 
 
 ### A few things were added:
-- patches for increasing readhead
-- -O3 optimisation Kconfig option (disabled by default)
+- MuQSS scheduler with runqueue sharing patches (default)
+- patches for increasing readhead values
 - graysky's CPU optimisation patch (-march=native by default)
 - cfs tuning by Zen
-- event poll patch
-- readded algodev/Manjaro BFQ
+- event poll patch from 4.15
+- Manjaro BFQ
+- patches from Arch
+- Zen (Ryzen) temp sensor patches from Manjaro
 
 ### Config changes:
 - Full refcount enabled

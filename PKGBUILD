@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=5
+_sub=6
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -43,7 +43,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         #'init-20160927-dev-root-proc-mount-fix.patch'
         'patch-enable_additional_cpu_optimizations.patch'
         'patch-lowlatency_for_cfs.patch'
-        'patch-new_config_option_for_O3.patch'
+        #'patch-new_config_option_for_O3.patch'
         'patch-blkrq.patch'
 	'patch-fix_useafterfree_dccp.patch'
         '4.14-sched-MuQSS_162.patch'
@@ -53,6 +53,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
         #'55803.patch::https://patchwork.kernel.org/patch/9987315/raw/'
+	'0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         # MANJARO Patches
         # Zen temperature
         '0001-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/682/1'
@@ -61,10 +62,10 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'd86eb2fd1c424fec9fbb12afacf7b783756651f5d7d0cf7ac71c3fbbbedddc9c'
+            'c75b40f450f147014a08987949aafb71d9fcd3e91e443f5c8e4edbf1bbc386c6'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
-            '9dcb05dc82c629709b5de7d82215c088aa7a2bf375a5b18bfd1b638d1236e5ab'
+            '4a4cdcff6caff531e3d8368b882d871d271aa454d0a29ec34b975d83c425d9bd'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -72,7 +73,6 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '8f7069fd2c530ef60f4c700e0dc2d486424485cabff8b1324d3921c86cc7e1cf'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
-            'd3ea49085ea47c0ec65ca4e25847889ecf87ef7452a7d9d147ca2c1e3ecb9cca'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             '0702ac9de665383e125c7d321adc4a1ccf10a04f18272d7804b973cd48f36aa0'
             '107cd35a6e3d1b21816eb446940a1793990b8e42feb053147962e9e6ecc70762'
@@ -80,6 +80,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'da0ae487246b89e91d82b6999877634fa5545c10eb8783a3df02918e039b645d'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
+            '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'a1b1c30d53d0a7ffe2b84331f634388807489b807b20cc24041e2591f7da2ec1'
             'df9ff4580281ce431b42490a69f51d0a839471983930044bebe268aaee70c5ad'
             '009da98553e3c9b5d452b7850aac25b9e81fa39de9f2aa33744c012c1a912006')
@@ -110,6 +111,7 @@ prepare() {
   # Arch patches
   # https://bugs.archlinux.org/task/55803
   #patch -Np1 -i "${srcdir}/55803.patch"
+  patch -Np1 -i "${srcdir}/0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch"
 
   # add BFQ scheduler
   msg "Fix naming schema in BFQ-MQ patch"
@@ -126,7 +128,7 @@ prepare() {
   # vd patches
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
-  patch -Np1 -i "${srcdir}/patch-new_config_option_for_O3.patch"
+  #patch -Np1 -i "${srcdir}/patch-new_config_option_for_O3.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
   patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
