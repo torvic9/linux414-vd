@@ -23,4 +23,7 @@ This is in most parts the same as the official Manjaro kernel.
 - BBR congestion control algorithm
 - blk-mq disabled, bfq-sq default scheduler
 
-More to follow, probably going for mq-deadline IO scheduler in the future.
+#### Update 25/12/17:
+- updated BFQ and VBox modules
+- removed building of VBox guest modules
+

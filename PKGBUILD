@@ -16,7 +16,7 @@ _bfq=v8r12
 _bfqdate=20171108
 _sub=8
 pkgver=${_basekernel}.${_sub}
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -38,22 +38,22 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         # BFQ patch
         #"0001-BFQ-${_bfq}-v${pkgver}.patch::https://github.com/Algodev-github/bfq-mq/compare/d93d4ce...abdfb33.patch"
         0001-BFQ-${_bfq}-${_bfqdate}.patch
-        0002-BFQ-${_bfq}-WARN-ON.patch
+        0002-BFQ-${_bfq}-20171222.patch
         # vd patches
         #'init-20160927-dev-root-proc-mount-fix.patch'
         'patch-enable_additional_cpu_optimizations.patch'
         'patch-lowlatency_for_cfs.patch'
         #'patch-new_config_option_for_O3.patch'
         'patch-blkrq.patch'
-	'patch-fix_useafterfree_dccp.patch'
+        'patch-fix_useafterfree_dccp.patch'
         '4.14-sched-MuQSS_162.patch'
-	'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
-	'0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
+        '0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
+        '0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
         #'55803.patch::https://patchwork.kernel.org/patch/9987315/raw/'
-	'0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
+        '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         # MANJARO Patches
         # Zen temperature
         '0001-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/682/1'
@@ -70,7 +70,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
             '5ac0d9fb774ed038c5537c59836b389bb64bdb50a01f32d0ee8ae03159ca9198'
-            '8f7069fd2c530ef60f4c700e0dc2d486424485cabff8b1324d3921c86cc7e1cf'
+            '3e17463acedb9ee54960587e4a230a8cd48701d3d34b7acb9696518b0dff7411'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
@@ -123,7 +123,7 @@ prepare() {
   #"${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
   #patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
   patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
-  patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-WARN-ON.patch"
+  patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-20171222.patch"
 
   # vd patches
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
