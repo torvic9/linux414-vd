@@ -9,7 +9,7 @@ _extramodules=extramodules-4.14-vd
 pkgname=$_linuxprefix-nvidia
 _pkgname=nvidia
 pkgver=384.98
-pkgrel=8
+pkgrel=9
 epoch=1
 provides=("$_pkgname=$pkgver")
 groups=("$_linuxprefix-extramodules")
