@@ -26,11 +26,13 @@ durl="http://us.download.nvidia.com/XFree86/Linux-x86"
 source_i686=("${durl}/${pkgver}/NVIDIA-Linux-x86-${pkgver}.run")
 source_x86_64=("${durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
     '001-gcc-patch.patch'
-    '002-gcc-patch.patch')
+    '002-gcc-patch.patch'
+    'linux-4.14.9.patch')
 sha256sums_i686=('93e38818b8fc5d0fc34f05449c15808e774de389545475a9536ffb6555b3bb57')
 sha256sums_x86_64=('169909c756ce01abcb676d704638003f3b782173a8ea82f2de798e40212780f5'
                    '8bccb3c8174105a4f8b085a423f7f78946adff1f1866ba0301bc30504cb6f00a'
-                   '6598736a94c8d2ef9af7583efe3d2f05817ea5de4dd560b44d7cd729a214e48f')
+                   '6598736a94c8d2ef9af7583efe3d2f05817ea5de4dd560b44d7cd729a214e48f'
+                   '9e435c1dab061edfdd7fb12ad7df81262d94dadcf268e882dcfdbbc92014a579')
 
 [[ "$CARCH" = "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
 [[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
@@ -41,6 +43,7 @@ prepare() {
     # patches here
     patch -Np1 -i "${srcdir}/001-gcc-patch.patch"
     patch -Np1 -i "${srcdir}/002-gcc-patch.patch"
+    patch -Np1 -i "${srcdir}/linux-4.14.9.patch"
 }
 
 build() {
