@@ -14,9 +14,9 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=9
+_sub=10
 pkgver=${_basekernel}.${_sub}
-pkgrel=5
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -38,7 +38,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         # BFQ patch
         #"0001-BFQ-${_bfq}-v${pkgver}.patch::https://github.com/Algodev-github/bfq-mq/compare/d93d4ce...abdfb33.patch"
         0001-BFQ-${_bfq}-${_bfqdate}.patch
-        0002-BFQ-${_bfq}-20171222.patch
+        0002-BFQ-${_bfq}-20171228.patch
         # vd patches
         #'init-20160927-dev-root-proc-mount-fix.patch'
         'patch-enable_additional_cpu_optimizations.patch'
@@ -49,6 +49,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 	# disable rq sharing for the moment being
 	#'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
         #'0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
+	# HHO patches
+	"objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
@@ -57,7 +59,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch'
         '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
         '0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch'
-        #'0001-ALSA-usb-audio-Fix-the-missing-ctl-name-suffix-at-pa.patch'
         # MANJARO Patches
         # Zen temperature
         '0001-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/682/1'
@@ -66,7 +67,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '5edc955bb67b04c7ed426b1df17a3e322e32ad9fdda9c6abb53ab6eca7faf704'
+            '16f560aa713b46c707f04a226f67dc31fdd280aae57dd19e0413d61df5336c74'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '87dce5314f902eec08f35fb4927129b06db46f9e2a77c9e30a4372c9c926a514'
@@ -74,12 +75,13 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
             '5ac0d9fb774ed038c5537c59836b389bb64bdb50a01f32d0ee8ae03159ca9198'
-            '3e17463acedb9ee54960587e4a230a8cd48701d3d34b7acb9696518b0dff7411'
+            'db5b73136b361c7073d5c16615a4befa1a571127397ae160ef435f8330015c1d'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             '0702ac9de665383e125c7d321adc4a1ccf10a04f18272d7804b973cd48f36aa0'
             '107cd35a6e3d1b21816eb446940a1793990b8e42feb053147962e9e6ecc70762'
+            '998cc630a1cc029b1352d65372295a4106db969207465fc212510f3c78f2270f'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
@@ -120,7 +122,6 @@ prepare() {
   patch -Np1 -i "${srcdir}/0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch"
   patch -Np1 -i "${srcdir}/0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch"
   patch -Np1 -i "${srcdir}/0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch"
-  #patch -Np1 -i "${srcdir}/0001-ALSA-usb-audio-Fix-the-missing-ctl-name-suffix-at-pa.patch"
 
   # add BFQ scheduler
   msg "Fix naming schema in BFQ-MQ patch"
@@ -132,7 +133,7 @@ prepare() {
   #"${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
   #patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
   patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
-  patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-20171222.patch"
+  patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-20171228.patch"
 
   # vd patches
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
@@ -142,6 +143,8 @@ prepare() {
   patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
   #patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
   #patch -Np1 -i "${srcdir}/0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch"
+  # HHO patches
+  patch -Np1 -i "${srcdir}/objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
 
