@@ -16,11 +16,11 @@ _bfq=v8r12
 _bfqdate=20171108
 _sub=11
 pkgver=${_basekernel}.${_sub}
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
-makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils' 'git')
 options=('!strip')
 source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.xz"
         "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.sign"
@@ -45,12 +45,13 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
         'patch-fix_useafterfree_dccp.patch'
+        # MuQSS
         '4.14-sched-MuQSS_162.patch'
-	# disable rq sharing for the moment being
-	#'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
+        # disable rq sharing for the moment being
+        #'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
         #'0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
-	# HHO patches
-	"objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
+        # HHO patches
+        "objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
@@ -60,6 +61,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
         '0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch'
         # MANJARO Patches
+        '0001-kpi-414.patch'
+        '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # Zen temperature
         '0001-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/682/1'
         '0002-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/683/1'
@@ -89,6 +92,8 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'ed3266ab03f836f57de0faf8a10ffd7566c909515c2649de99adaab2fac4aa32'
             '64a014f7e1b4588728b3ea9538beee67ec63fb792d890c7be9cc13ddc2121b00'
             '3d4c41086c077fbd515d04f5e59c0c258f700433c5da3365d960b696c2e56efb'
+            '5324dfc0721a7f96e08712ba324070e113edab14e8fa9e7b3ad1db5a2ccd2eaa'
+            'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
             'a1b1c30d53d0a7ffe2b84331f634388807489b807b20cc24041e2591f7da2ec1'
             'df9ff4580281ce431b42490a69f51d0a839471983930044bebe268aaee70c5ad'
             '009da98553e3c9b5d452b7850aac25b9e81fa39de9f2aa33744c012c1a912006')
@@ -123,6 +128,10 @@ prepare() {
   patch -Np1 -i "${srcdir}/0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch"
   patch -Np1 -i "${srcdir}/0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch"
 
+  # Manjaro patches
+  patch -Np1 -i "${srcdir}/0001-kpi-414.patch"
+  patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
+  
   # add BFQ scheduler
   msg "Fix naming schema in BFQ-MQ patch"
   sed -i -e "s|SUBLEVEL = 0|SUBLEVEL = ${_sub}|g" \
