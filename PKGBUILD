@@ -16,7 +16,7 @@ _bfq=v8r12
 _bfqdate=20171108
 _sub=11
 pkgver=${_basekernel}.${_sub}
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -29,6 +29,10 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         #linux-${_basekernel}${_rc}${_shortgit}-${pkgrel}.tar.gz::https://github.com/torvalds/linux/archive/${_git}.tar.gz
         "http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
         "http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+	# stable queue generator
+	#'gen-stable-queue-patch.sh'
+	# prepatches from 4.14.12
+	'prepatches-meltdown.patch::https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/patch/?id=7ed2d2e856c060ea9be9f598cd6b798234979082'
         # the main kernel config files
         'config' 'config.vd' # 'config.x86_64'
         # standard config files for mkinitcpio ramdisk
@@ -57,11 +61,10 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-e1000e-Fix-e1000_check_for_copper_link_ich8lan-retur.patch'
-        '0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch'
+        #'0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch'
         '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
         '0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch'
         # MANJARO Patches
-        '0001-kpi-414.patch'
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # Zen temperature
         '0001-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/682/1'
@@ -72,6 +75,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
             'f588b62d7ee1d2ebdc24afa0e256ff2f8812d5cab3bf572bf02e7c4525922bf9'
             'SKIP'
+            'f8fd51df125678d1c76fabe45d7d14274a1d2eb660edf6f2b19e94d50413627d'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '38324b016e97b86b965dc324b923c724587d9c3791550baae2739dfa3451df70'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
@@ -89,10 +93,8 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c6e7db7dfd6a07e1fd0e20c3a5f0f315f9c2a366fe42214918b756f9a1c9bfa3'
-            'ed3266ab03f836f57de0faf8a10ffd7566c909515c2649de99adaab2fac4aa32'
             '64a014f7e1b4588728b3ea9538beee67ec63fb792d890c7be9cc13ddc2121b00'
             '3d4c41086c077fbd515d04f5e59c0c258f700433c5da3365d960b696c2e56efb'
-            '5324dfc0721a7f96e08712ba324070e113edab14e8fa9e7b3ad1db5a2ccd2eaa'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
             'a1b1c30d53d0a7ffe2b84331f634388807489b807b20cc24041e2591f7da2ec1'
             'df9ff4580281ce431b42490a69f51d0a839471983930044bebe268aaee70c5ad'
@@ -111,10 +113,15 @@ prepare() {
   # add upstream patch
   patch -p1 -i "${srcdir}/patch-${pkgver}"
 
+  # add prepatches from 4.14.12
+  patch -Np1 -i "${srcdir}/prepatches-meltdown.patch"
+
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
   # enable only if you have "gen-stable-queue-patch.sh" executed before
-  #patch -Np1 -i "${srcdir}/prepatch-${_basekernel}`date +%Y%m%d`"
+  #sh ${srcdir}/gen-stable-queue-patch.sh
+  #_ser=1
+  #patch -Np1 -i "${srcdir}/prepatch-${_basekernel}-${_ser}"
 
   # Add support for temperature sensors on Family 17h (Ryzen) processors.
   patch -Np1 -i "${srcdir}/0001-zen-temp.patch"
@@ -124,12 +131,12 @@ prepare() {
   # Arch patches
   patch -Np1 -i "${srcdir}/0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch"
   patch -Np1 -i "${srcdir}/0001-e1000e-Fix-e1000_check_for_copper_link_ich8lan-retur.patch"
-  patch -Np1 -i "${srcdir}/0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch"
+  #patch -Np1 -i "${srcdir}/0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch"
   patch -Np1 -i "${srcdir}/0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch"
   patch -Np1 -i "${srcdir}/0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch"
 
   # Manjaro patches
-  patch -Np1 -i "${srcdir}/0001-kpi-414.patch"
+  # patch -Np1 -i "${srcdir}/0001-kpi-414.patch"
   patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
   
   # add BFQ scheduler
