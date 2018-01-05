@@ -14,9 +14,9 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=11
+_sub=12
 pkgver=${_basekernel}.${_sub}
-pkgrel=3
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -29,10 +29,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         #linux-${_basekernel}${_rc}${_shortgit}-${pkgrel}.tar.gz::https://github.com/torvalds/linux/archive/${_git}.tar.gz
         "http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
         "http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
-	# stable queue generator
-	#'gen-stable-queue-patch.sh'
-	# prepatches from 4.14.12
-	'prepatches-meltdown.patch::https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/patch/?id=7ed2d2e856c060ea9be9f598cd6b798234979082'
+        # stable queue generator
+        #'gen-stable-queue-patch.sh'
         # the main kernel config files
         'config' 'config.vd' # 'config.x86_64'
         # standard config files for mkinitcpio ramdisk
@@ -61,7 +59,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-e1000e-Fix-e1000_check_for_copper_link_ich8lan-retur.patch'
-        #'0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch'
         '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
         '0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch'
         # MANJARO Patches
@@ -73,9 +70,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'f588b62d7ee1d2ebdc24afa0e256ff2f8812d5cab3bf572bf02e7c4525922bf9'
+            'da5d8db44b0988e4c45346899d3f5a51f8bd6c25f14e729615ca9ff9f17bdefd'
             'SKIP'
-            'f8fd51df125678d1c76fabe45d7d14274a1d2eb660edf6f2b19e94d50413627d'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '38324b016e97b86b965dc324b923c724587d9c3791550baae2739dfa3451df70'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
@@ -113,9 +109,6 @@ prepare() {
   # add upstream patch
   patch -p1 -i "${srcdir}/patch-${pkgver}"
 
-  # add prepatches from 4.14.12
-  patch -Np1 -i "${srcdir}/prepatches-meltdown.patch"
-
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
   # enable only if you have "gen-stable-queue-patch.sh" executed before
@@ -131,7 +124,6 @@ prepare() {
   # Arch patches
   patch -Np1 -i "${srcdir}/0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch"
   patch -Np1 -i "${srcdir}/0001-e1000e-Fix-e1000_check_for_copper_link_ich8lan-retur.patch"
-  #patch -Np1 -i "${srcdir}/0001-Revert-xfrm-Fix-stack-out-of-bounds-read-in-xfrm_sta.patch"
   patch -Np1 -i "${srcdir}/0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch"
   patch -Np1 -i "${srcdir}/0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch"
 
