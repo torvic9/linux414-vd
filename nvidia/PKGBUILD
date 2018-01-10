@@ -8,8 +8,8 @@ _linuxprefix=linux414-vd
 _extramodules=extramodules-4.14-vd
 pkgname=$_linuxprefix-nvidia
 _pkgname=nvidia
-pkgver=384.98
-pkgrel=9.4
+pkgver=384.111
+pkgrel=2
 epoch=1
 provides=("$_pkgname=$pkgver")
 groups=("$_linuxprefix-extramodules")
@@ -25,13 +25,11 @@ options=(!strip)
 durl="http://us.download.nvidia.com/XFree86/Linux-x86"
 source_i686=("${durl}/${pkgver}/NVIDIA-Linux-x86-${pkgver}.run")
 source_x86_64=("${durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
-    '001-gcc-patch.patch'
-    '002-gcc-patch.patch'
+    'nvidia-gcc.patch'
     'linux-4.14.9.patch')
-sha256sums_i686=('93e38818b8fc5d0fc34f05449c15808e774de389545475a9536ffb6555b3bb57')
-sha256sums_x86_64=('169909c756ce01abcb676d704638003f3b782173a8ea82f2de798e40212780f5'
-                   '8bccb3c8174105a4f8b085a423f7f78946adff1f1866ba0301bc30504cb6f00a'
-                   '6598736a94c8d2ef9af7583efe3d2f05817ea5de4dd560b44d7cd729a214e48f'
+sha256sums_i686=('89fff5466abd0ad212bedd9587cc86d617b70ad23aaebad424e0ae63e1f1948f')
+sha256sums_x86_64=('56b8c993c697aa37fe9ab1b6764304b82c86d5c745cd98dd8492be27f596ead7'
+                   'e81d954e5191a4c3562f4f10ac229acf9dece3e6a4270b90f4930670909bc26a'
                    '9e435c1dab061edfdd7fb12ad7df81262d94dadcf268e882dcfdbbc92014a579')
 
 [[ "$CARCH" = "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
@@ -41,8 +39,7 @@ prepare() {
     sh "${_pkg}.run" --extract-only
     cd "${_pkg}"
     # patches here
-    patch -Np1 -i "${srcdir}/001-gcc-patch.patch"
-    patch -Np1 -i "${srcdir}/002-gcc-patch.patch"
+    patch -Np1 -i "${srcdir}/nvidia-gcc.patch"
     patch -Np1 -i "${srcdir}/linux-4.14.9.patch"
 }
 
