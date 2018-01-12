@@ -48,7 +48,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-blkrq.patch'
         'patch-fix_useafterfree_dccp.patch'
         # MuQSS
-        '4.14-sched-MuQSS_162.patch'
+        # '4.14-sched-MuQSS_162.patch'
         # disable rq sharing for the moment being
         #'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
         #'0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
@@ -56,6 +56,9 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         "objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
+	# HHO PDS
+	'pds-20171223-001-pds-098h.patch'
+	'pds-20171231-restore-sched_yield()-support.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-e1000e-Fix-e1000_check_for_copper_link_ich8lan-retur.patch'
@@ -64,16 +67,16 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         # MANJARO Patches
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # Zen temperature
-        '0001-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/682/1'
-        '0002-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/683/1'
-        '0003-zen-temp.patch::https://lkml.org/lkml/diff/2017/9/6/684/1'
+	'0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
+        '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
+	'0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
             'ce897f467e80452f29d7a7a8809e8585ea12192a2c32e4d18578f64b043e802e'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
-            '38324b016e97b86b965dc324b923c724587d9c3791550baae2739dfa3451df70'
+            '31d2f40ff0044687b6b7e4113981569767512d07213626bf2ccbb2e78fe4bf95'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -83,18 +86,19 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             '0702ac9de665383e125c7d321adc4a1ccf10a04f18272d7804b973cd48f36aa0'
-            '107cd35a6e3d1b21816eb446940a1793990b8e42feb053147962e9e6ecc70762'
             '998cc630a1cc029b1352d65372295a4106db969207465fc212510f3c78f2270f'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
+            'ec74b127a5309ce4ef9ba47ec36d5e78fd796f1ff29787f5493ec9266bf23cad'
+            'd6ee52842c1d9764f5b5e0713fdf1d119b9cd8c3dbc4ac8219d89faad661aa80'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c6e7db7dfd6a07e1fd0e20c3a5f0f315f9c2a366fe42214918b756f9a1c9bfa3'
             '64a014f7e1b4588728b3ea9538beee67ec63fb792d890c7be9cc13ddc2121b00'
             '3d4c41086c077fbd515d04f5e59c0c258f700433c5da3365d960b696c2e56efb'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
-            'a1b1c30d53d0a7ffe2b84331f634388807489b807b20cc24041e2591f7da2ec1'
-            'df9ff4580281ce431b42490a69f51d0a839471983930044bebe268aaee70c5ad'
-            '009da98553e3c9b5d452b7850aac25b9e81fa39de9f2aa33744c012c1a912006')
+            'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
+            'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
+            '70cee696fb4204ac7f787cef0742c50637e8bb7f68e2c7bca01aeefff32affc8')
 
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
@@ -128,7 +132,6 @@ prepare() {
   patch -Np1 -i "${srcdir}/0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch"
 
   # Manjaro patches
-  # patch -Np1 -i "${srcdir}/0001-kpi-414.patch"
   patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
   
   # add BFQ scheduler
@@ -148,9 +151,12 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
-  patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
+  #patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
   #patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
   #patch -Np1 -i "${srcdir}/0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch"
+  # PDS
+  patch -Np1 -i "${srcdir}/pds-20171223-001-pds-098h.patch"
+  patch -Np1 -i "${srcdir}/pds-20171231-restore-sched_yield()-support.patch"
   # HHO patches
   patch -Np1 -i "${srcdir}/objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
