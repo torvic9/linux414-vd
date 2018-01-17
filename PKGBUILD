@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=13
+_sub=14
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -47,11 +47,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
         'patch-fix_useafterfree_dccp.patch'
-        # MuQSS
-        # '4.14-sched-MuQSS_162.patch'
-        # disable rq sharing for the moment being
-        #'0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
-        #'0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
         # HHO patches
         "objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
         'mm-20171004-increase-maximum-readahead-window.patch'
@@ -59,11 +54,10 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 	# HHO PDS
 	'pds-20171223-001-pds-098h.patch'
 	'pds-20171231-restore-sched_yield()-support.patch'
+	'pds-20180108-16ms-balancing-interval.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
-        '0001-e1000e-Fix-e1000_check_for_copper_link_ich8lan-retur.patch'
         '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
-        '0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch'
         # MANJARO Patches
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # Zen temperature
@@ -73,10 +67,10 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'ce897f467e80452f29d7a7a8809e8585ea12192a2c32e4d18578f64b043e802e'
+            '62d656b98f0dc143216cb9650bd9b96cd83d92925731e9f0bec5eb4d6358e603'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
-            '31d2f40ff0044687b6b7e4113981569767512d07213626bf2ccbb2e78fe4bf95'
+            '4be37dd4dfd71c9e4de9bc9897de38ef2f998e0b646ed01214a6690cc1222b2e'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -91,10 +85,9 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             'ec74b127a5309ce4ef9ba47ec36d5e78fd796f1ff29787f5493ec9266bf23cad'
             'd6ee52842c1d9764f5b5e0713fdf1d119b9cd8c3dbc4ac8219d89faad661aa80'
+            '34795caf7ee48915d8b02d30ebe70668b973ed3f7ce9d8566dff6b8b97481209'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
-            'c6e7db7dfd6a07e1fd0e20c3a5f0f315f9c2a366fe42214918b756f9a1c9bfa3'
             '64a014f7e1b4588728b3ea9538beee67ec63fb792d890c7be9cc13ddc2121b00'
-            '3d4c41086c077fbd515d04f5e59c0c258f700433c5da3365d960b696c2e56efb'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
             'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
@@ -127,9 +120,7 @@ prepare() {
 
   # Arch patches
   patch -Np1 -i "${srcdir}/0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch"
-  patch -Np1 -i "${srcdir}/0001-e1000e-Fix-e1000_check_for_copper_link_ich8lan-retur.patch"
   patch -Np1 -i "${srcdir}/0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch"
-  patch -Np1 -i "${srcdir}/0003-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch"
 
   # Manjaro patches
   patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
@@ -151,12 +142,10 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
-  #patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
-  #patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
-  #patch -Np1 -i "${srcdir}/0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch"
   # PDS
   patch -Np1 -i "${srcdir}/pds-20171223-001-pds-098h.patch"
   patch -Np1 -i "${srcdir}/pds-20171231-restore-sched_yield()-support.patch"
+  patch -Np1 -i "${srcdir}/pds-20180108-16ms-balancing-interval.patch"
   # HHO patches
   patch -Np1 -i "${srcdir}/objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
