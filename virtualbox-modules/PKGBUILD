@@ -12,9 +12,9 @@ pkgbase=$_linuxprefix-virtualbox-modules
 pkgname=("$_linuxprefix-virtualbox-host-modules" 
          #"$_linuxprefix-virtualbox-guest-modules"
          )
-pkgver=5.2.4
+pkgver=5.2.6
 _pkgver="${pkgver}_OSE"
-pkgrel=8
+pkgrel=1
 arch=('i686' 'x86_64')
 url='http://virtualbox.org'
 license=('GPL')
@@ -90,4 +90,5 @@ package_linux414-vd-virtualbox-host-modules(){
 #  echo "vboxsf" >> "$pkgdir/etc/modules-load.d/$_linuxprefix-virtualbox-guest-modules.conf"
 #  echo "vboxvideo" >> "$pkgdir/etc/modules-load.d/$_linuxprefix-virtualbox-guest-modules.conf"
 #}
+
 
