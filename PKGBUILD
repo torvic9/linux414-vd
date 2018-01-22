@@ -52,9 +52,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
 	# HHO PDS
-	'pds-20171223-001-pds-098h.patch'
-	'pds-20171231-restore-sched_yield()-support.patch'
-	'pds-20180108-16ms-balancing-interval.patch'
+	'pds-20180116-001-pds-098i.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
@@ -83,9 +81,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '998cc630a1cc029b1352d65372295a4106db969207465fc212510f3c78f2270f'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
-            'ec74b127a5309ce4ef9ba47ec36d5e78fd796f1ff29787f5493ec9266bf23cad'
-            'd6ee52842c1d9764f5b5e0713fdf1d119b9cd8c3dbc4ac8219d89faad661aa80'
-            '34795caf7ee48915d8b02d30ebe70668b973ed3f7ce9d8566dff6b8b97481209'
+            'd3bf0ad1adf557bef74f58a660398362dbb88e030473b2d3b929a5549fe4d821'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             '64a014f7e1b4588728b3ea9538beee67ec63fb792d890c7be9cc13ddc2121b00'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
@@ -143,9 +139,7 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
   # PDS
-  patch -Np1 -i "${srcdir}/pds-20171223-001-pds-098h.patch"
-  patch -Np1 -i "${srcdir}/pds-20171231-restore-sched_yield()-support.patch"
-  patch -Np1 -i "${srcdir}/pds-20180108-16ms-balancing-interval.patch"
+  patch -Np1 -i "${srcdir}/pds-20180116-001-pds-098i.patch"
   # HHO patches
   patch -Np1 -i "${srcdir}/objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
