@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=14
+_sub=15
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -53,7 +53,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
         '0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
         # HHO patches
-        "objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
@@ -68,7 +67,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '62d656b98f0dc143216cb9650bd9b96cd83d92925731e9f0bec5eb4d6358e603'
+            '54a6359ed333e619db8c5c88020ff20f1e25635337f01f50a7488ec2fc0fe030'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '432313eef2721cee0fdcb393efc0c22bbfae5104853d455bcddc118936741356'
@@ -84,7 +83,6 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '107cd35a6e3d1b21816eb446940a1793990b8e42feb053147962e9e6ecc70762'
             'c94f9113289d1fee02cba65a390b3abfba7b9b5255dcc743d2df6e34bb633aa2'
             'da0ae487246b89e91d82b6999877634fa5545c10eb8783a3df02918e039b645d'
-            '998cc630a1cc029b1352d65372295a4106db969207465fc212510f3c78f2270f'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
@@ -144,11 +142,11 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
+  # muqss
   patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
   patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
   patch -Np1 -i "${srcdir}/0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch"
   # HHO patches
-  patch -Np1 -i "${srcdir}/objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
 
