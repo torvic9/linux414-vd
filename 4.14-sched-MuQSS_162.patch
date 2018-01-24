@@ -3444,7 +3444,7 @@ index 000000000000..e84d700709ff
 +	p->state = TASK_WAKING;
 +
 +	if (p->in_iowait) {
-+		delayacct_blkio_end();
++		delayacct_blkio_end(p);
 +		atomic_dec(&task_rq(p)->nr_iowait);
 +	}
 +
@@ -3455,7 +3455,7 @@ index 000000000000..e84d700709ff
 +#else /* CONFIG_SMP */
 +
 +	if (p->in_iowait) {
-+		delayacct_blkio_end();
++		delayacct_blkio_end(p);
 +		atomic_dec(&task_rq(p)->nr_iowait);
 +	}
 +
@@ -3507,7 +3507,7 @@ index 000000000000..e84d700709ff
 +
 +	if (!task_on_rq_queued(p)) {
 +		if (p->in_iowait) {
-+			delayacct_blkio_end();
++			delayacct_blkio_end(p);
 +			atomic_dec(&rq->nr_iowait);
 +		}
 +		ttwu_activate(rq, p);
