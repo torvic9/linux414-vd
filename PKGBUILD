@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=15
+_sub=16
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -49,7 +49,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-fix_useafterfree_dccp.patch'
         # MuQSS
         '4.14-sched-MuQSS_162.patch'
-        # enable rq sharing for the moment being
         '0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
         '0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
         # HHO patches
@@ -57,9 +56,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
-        '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
-        # MANJARO Patches
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
+        # MANJARO Patches
         # Zen temperature
         '0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
@@ -67,7 +65,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '54a6359ed333e619db8c5c88020ff20f1e25635337f01f50a7488ec2fc0fe030'
+            '35a107a45a6e8884d3ab442f9845007e3fcf9998441bf2324a86e91056628fe7'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '432313eef2721cee0fdcb393efc0c22bbfae5104853d455bcddc118936741356'
@@ -86,7 +84,6 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
-            '64a014f7e1b4588728b3ea9538beee67ec63fb792d890c7be9cc13ddc2121b00'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
             'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
@@ -119,11 +116,9 @@ prepare() {
 
   # Arch patches
   patch -Np1 -i "${srcdir}/0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch"
-  patch -Np1 -i "${srcdir}/0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch"
+  patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
 
   # Manjaro patches
-  # patch -Np1 -i "${srcdir}/0001-kpi-414.patch"
-  patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
 
   # add BFQ scheduler
   msg "Fix naming schema in BFQ-MQ patch"
@@ -134,6 +129,7 @@ prepare() {
       "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
   #"${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
   #patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
+
   patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
   patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-20171228.patch"
 
