@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=14
+_sub=16
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -48,16 +48,15 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-blkrq.patch'
         'patch-fix_useafterfree_dccp.patch'
         # HHO patches
-        "objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
 	# HHO PDS
 	'pds-20180116-001-pds-098i.patch'
+	'pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
-        '0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch'
-        # MANJARO Patches
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
+        # MANJARO Patches
         # Zen temperature
 	'0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
@@ -65,7 +64,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '62d656b98f0dc143216cb9650bd9b96cd83d92925731e9f0bec5eb4d6358e603'
+            '35a107a45a6e8884d3ab442f9845007e3fcf9998441bf2324a86e91056628fe7'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '4be37dd4dfd71c9e4de9bc9897de38ef2f998e0b646ed01214a6690cc1222b2e'
@@ -78,12 +77,11 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             '0702ac9de665383e125c7d321adc4a1ccf10a04f18272d7804b973cd48f36aa0'
-            '998cc630a1cc029b1352d65372295a4106db969207465fc212510f3c78f2270f'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             'd3bf0ad1adf557bef74f58a660398362dbb88e030473b2d3b929a5549fe4d821'
+            'e944a0485f8ff9adf0f0bafdb8f356f40e170a7a5134811a90db6e031e06018e'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
-            '64a014f7e1b4588728b3ea9538beee67ec63fb792d890c7be9cc13ddc2121b00'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
             'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
@@ -116,10 +114,9 @@ prepare() {
 
   # Arch patches
   patch -Np1 -i "${srcdir}/0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch"
-  patch -Np1 -i "${srcdir}/0002-xfrm-Fix-stack-out-of-bounds-read-on-socket-policy-l.patch"
+  patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
 
   # Manjaro patches
-  patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
   
   # add BFQ scheduler
   msg "Fix naming schema in BFQ-MQ patch"
@@ -130,6 +127,7 @@ prepare() {
       "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
   #"${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
   #patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
+
   patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
   patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-20171228.patch"
 
@@ -140,8 +138,8 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
   # PDS
   patch -Np1 -i "${srcdir}/pds-20180116-001-pds-098i.patch"
+  patch -Np1 -i "${srcdir}/pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch"
   # HHO patches
-  patch -Np1 -i "${srcdir}/objtool-20171215-don't-assume-sync-check.sh-is-executable.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
 
