@@ -23,13 +23,7 @@ This is in most parts the same as the official Manjaro kernel.
 - BBR congestion control algorithm
 - blk-mq disabled, bfq-sq default scheduler
 
-#### Update 26/12/17:
-- 4.19.9
-- added Arch patches
-- disabled rq sharing
-- enabled 1000 Hz tick
+#### Update 07/02/2017:
+replaced MuQSS with PDS
 
-#### Update 25/12/17:
-- updated BFQ and VBox modules
-- removed building of VBox guest modules
 
