@@ -47,13 +47,12 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
         'patch-fix_useafterfree_dccp.patch'
-        # MuQSS
-        '4.14-sched-MuQSS_162.patch'
-        '0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch'
-        '0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch'
         # HHO patches
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
+        # HHO PDS
+        'pds-20180116-001-pds-098i.patch'
+        'pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
@@ -68,7 +67,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '1e62d56e37bd15daec7c3d20a605624e1e0a21c44856880c6dbe0c9e41cabfa8'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
-            '799829ca9a998097c4cf26c156649288377c5908a0f35bbec83f00b39890a921'
+            '9c5721da7950dd1e491a16a6e0c60b3fd498deb0bb8eec6fb2f5dcea15f1099e'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -78,11 +77,10 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             '0702ac9de665383e125c7d321adc4a1ccf10a04f18272d7804b973cd48f36aa0'
-            '6a07ad7af129d54a3289bea40524855c1527f5b15d36108102db575d07930932'
-            'c94f9113289d1fee02cba65a390b3abfba7b9b5255dcc743d2df6e34bb633aa2'
-            'da0ae487246b89e91d82b6999877634fa5545c10eb8783a3df02918e039b645d'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
+            'd3bf0ad1adf557bef74f58a660398362dbb88e030473b2d3b929a5549fe4d821'
+            'e944a0485f8ff9adf0f0bafdb8f356f40e170a7a5134811a90db6e031e06018e'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
@@ -138,10 +136,9 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
-  # muqss
-  patch -Np1 -i "${srcdir}/4.14-sched-MuQSS_162.patch"
-  patch -Np1 -i "${srcdir}/0001-Implement-the-ability-to-share-runqueues-when-CPUs-a.patch"
-  patch -Np1 -i "${srcdir}/0002-Calculate-rq-nr_running-discretely-since-skip-lists-.patch"
+  # PDS
+  patch -Np1 -i "${srcdir}/pds-20180116-001-pds-098i.patch"
+  patch -Np1 -i "${srcdir}/pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch"
   # HHO patches
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
