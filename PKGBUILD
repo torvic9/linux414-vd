@@ -46,7 +46,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-enable_additional_cpu_optimizations.patch'
         'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
-        'patch-fix_useafterfree_dccp.patch'
         # HHO patches
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
@@ -76,7 +75,6 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
-            '0702ac9de665383e125c7d321adc4a1ccf10a04f18272d7804b973cd48f36aa0'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             'd3bf0ad1adf557bef74f58a660398362dbb88e030473b2d3b929a5549fe4d821'
@@ -135,7 +133,6 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
-  patch -Np1 -i "${srcdir}/patch-fix_useafterfree_dccp.patch"
   # PDS
   patch -Np1 -i "${srcdir}/pds-20180116-001-pds-098i.patch"
   patch -Np1 -i "${srcdir}/pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch"
