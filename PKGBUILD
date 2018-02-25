@@ -14,9 +14,9 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=21
+_sub=22
 pkgver=${_basekernel}.${_sub}
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -61,7 +61,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '4d888fb78a52e556948483c8410159a83c51195eb7637f084d6f19f014fff448'
+            '6df3b1cea7091380949dcb33a8313bdfd4b26227584569753ff6c8d161ee1cf7'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             'fe72cc40986a6088d8dbf90439a980625afe66210fdcd953b7f05725f3f4eee8'
@@ -181,7 +181,7 @@ build() {
   cd "${srcdir}/linux-${_basekernel}"
 
   # build!
-  make ${MAKEFLAGS} LOCALVERSION= bzImage modules
+  make ${MAKEFLAGS} -j12 LOCALVERSION= bzImage modules
 }
 
 package_linux414-vd() {
