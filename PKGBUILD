@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=22
+_sub=23
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -48,8 +48,8 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         'block-20180213-optimization-for-classic-polling.patch'
         # HHO PDS
-        'pds-20180116-001-pds-098i.patch'
-        'pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch'
+        #'pds-20180116-001-pds-098i.patch'
+        #'pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
@@ -61,10 +61,10 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '6df3b1cea7091380949dcb33a8313bdfd4b26227584569753ff6c8d161ee1cf7'
+            '65987b047297e03246f31c64a2afc79bee2f3de336d7079ce690853bead56d24'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
-            'fe72cc40986a6088d8dbf90439a980625afe66210fdcd953b7f05725f3f4eee8'
+            '0ff3f8e1d14387d8eadc97c25c51f310c95beade7acbeab9f5c1cadf3718a837'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -76,8 +76,6 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             'ac439d96e941e815d0caa77cb3d02b8a4da5aeddfc1557d465bff89360e5927a'
-            'd3bf0ad1adf557bef74f58a660398362dbb88e030473b2d3b929a5549fe4d821'
-            'e944a0485f8ff9adf0f0bafdb8f356f40e170a7a5134811a90db6e031e06018e'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
@@ -133,8 +131,8 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   # PDS
-  patch -Np1 -i "${srcdir}/pds-20180116-001-pds-098i.patch"
-  patch -Np1 -i "${srcdir}/pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch"
+  #patch -Np1 -i "${srcdir}/pds-20180116-001-pds-098i.patch"
+  #patch -Np1 -i "${srcdir}/pds-20180122-fix-delayacct-account-blkio-completion-on-the-correct-task.patch"
   # HHO patches
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
