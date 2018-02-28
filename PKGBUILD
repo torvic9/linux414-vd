@@ -16,7 +16,7 @@ _bfq=v8r12
 _bfqdate=20171108
 _sub=23
 pkgver=${_basekernel}.${_sub}
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -64,7 +64,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '65987b047297e03246f31c64a2afc79bee2f3de336d7079ce690853bead56d24'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
-            '0ff3f8e1d14387d8eadc97c25c51f310c95beade7acbeab9f5c1cadf3718a837'
+            '6232430d8d0ba7f43ba30a62019fbd800b58a95ffa94d81776c01c0223794e66'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
