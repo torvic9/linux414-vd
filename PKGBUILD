@@ -14,9 +14,9 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=23
+_sub=24
 pkgver=${_basekernel}.${_sub}
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -61,7 +61,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '65987b047297e03246f31c64a2afc79bee2f3de336d7079ce690853bead56d24'
+            '6183a67253cf4792431e541fe41e5054665396294cd7e41b94122db195a01357'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '6232430d8d0ba7f43ba30a62019fbd800b58a95ffa94d81776c01c0223794e66'
