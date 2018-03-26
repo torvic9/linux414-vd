@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=29
+_sub=30
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -51,6 +51,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # MANJARO Patches
+	'0001-tcp-reset-sk_send_head-in-tcp_write_queue_purge.patch::https://patchwork.ozlabs.org/patch/886324/raw/'
         # Zen temperature
         '0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
@@ -58,7 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '7e1823c71f54d963409d478c8306f55cd45a7d02a74c7613ca74ce27c6ba6bec'
+            'c954ba12ebe4c226920f0c854890c502fa9f690bd63d8572a65147475f94ef09'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '06609b3456f2ae6a9944a9247d591bc278628b5d0fbe52318962b261bd66b100'
@@ -74,6 +75,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'ac439d96e941e815d0caa77cb3d02b8a4da5aeddfc1557d465bff89360e5927a'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
+            '38e2b3248a6924a59a37d5031192664242a8721fa5143c3e0c7f05435519f3a0'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
             'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
             '70cee696fb4204ac7f787cef0742c50637e8bb7f68e2c7bca01aeefff32affc8')
@@ -108,6 +110,7 @@ prepare() {
   patch -Np1 -i "${srcdir}/0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch"
 
   # Manjaro patches
+  patch -Np1 -i "${srcdir}/0001-tcp-reset-sk_send_head-in-tcp_write_queue_purge.patch"
 
   # add BFQ scheduler
   msg "Fix naming schema in BFQ-MQ patch"
