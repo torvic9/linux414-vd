@@ -14,7 +14,7 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=31
+_sub=32
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -41,7 +41,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         # vd patches
         #'init-20160927-dev-root-proc-mount-fix.patch'
         'patch-enable_additional_cpu_optimizations.patch'
-        #'patch-lowlatency_for_cfs.patch'
+        'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
         # HHO patches
         'mm-20171004-increase-maximum-readahead-window.patch'
@@ -59,7 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'fa05fc75fff3a07e9f642bcfc5b99e601e9c92e3c7543127509e2fa102c25a2c'
+            '095a3a36f8ed160d9663aab0da27fde8022410669245ab01e882cfefece056bc'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '06609b3456f2ae6a9944a9247d591bc278628b5d0fbe52318962b261bd66b100'
@@ -69,6 +69,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '5ac0d9fb774ed038c5537c59836b389bb64bdb50a01f32d0ee8ae03159ca9198'
             'db5b73136b361c7073d5c16615a4befa1a571127397ae160ef435f8330015c1d'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
+            '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
@@ -127,7 +128,7 @@ prepare() {
 
   # vd patches
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
-  #patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
+  patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   # HHO patches
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
