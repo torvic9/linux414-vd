@@ -14,7 +14,8 @@ _basekernel=4.14
 _basever=414
 _bfq=v8r12
 _bfqdate=20171108
-_sub=32
+_bfqdate2=20180404
+_sub=33
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -35,17 +36,17 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '60-linux.hook'
         '90-linux.hook'
         # BFQ patch
-        #"0001-BFQ-${_bfq}-v${pkgver}.patch::https://github.com/Algodev-github/bfq-mq/compare/d93d4ce...abdfb33.patch"
         0001-BFQ-${_bfq}-${_bfqdate}.patch
-        0002-BFQ-${_bfq}-20171228.patch
+        0002-BFQ-${_bfq}-${_bfqdate2}.patch
         # vd patches
         #'init-20160927-dev-root-proc-mount-fix.patch'
         'patch-enable_additional_cpu_optimizations.patch'
-        'patch-lowlatency_for_cfs.patch'
+        #'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
         # HHO patches
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
+	"epoll-20171117-avoid-calling-ep_call_nested()-from-ep_poll_safewake().patch"
         'block-20180213-optimization-for-classic-polling.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
@@ -58,7 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '095a3a36f8ed160d9663aab0da27fde8022410669245ab01e882cfefece056bc'
+            '2514c90d323e26646e1b9237051e838cc5e3c17af2dfba735159aeae4d798ebd'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '06609b3456f2ae6a9944a9247d591bc278628b5d0fbe52318962b261bd66b100'
@@ -66,12 +67,12 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
             '5ac0d9fb774ed038c5537c59836b389bb64bdb50a01f32d0ee8ae03159ca9198'
-            'db5b73136b361c7073d5c16615a4befa1a571127397ae160ef435f8330015c1d'
+            'f51c1b8709bf9f0e642ebd12d48ee1ac41047902a87cf6a783ca794cfa5142dc'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
-            '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
+            'd40540ac578e7b8a30c4bc0e63e9778a84769ec6c73b805bbb09a0eac28cc3f0'
             'ac439d96e941e815d0caa77cb3d02b8a4da5aeddfc1557d465bff89360e5927a'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
@@ -117,19 +118,18 @@ prepare() {
       -i -e "s|EXTRAVERSION = -rc8-bfq-mq|EXTRAVERSION =|g" \
       -i -e "s|NAME = Fearless Coyote|NAME = Petit Gorille|g" \
       "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
-  #"${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
-  #patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-v${pkgver}.patch"
 
   patch -Np1 -i "${srcdir}/0001-BFQ-${_bfq}-${_bfqdate}.patch"
-  patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-20171228.patch"
+  patch -Np1 -i "${srcdir}/0002-BFQ-${_bfq}-${_bfqdate2}.patch"
 
   # vd patches
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
-  patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
+  #patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   # HHO patches
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
+  patch -Np1 -i "${srcdir}/epoll-20171117-avoid-calling-ep_call_nested()-from-ep_poll_safewake().patch"
   patch -Np1 -i "${srcdir}/block-20180213-optimization-for-classic-polling.patch"
 
   if [ "${CARCH}" = "x86_64" ]; then
