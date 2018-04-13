@@ -15,7 +15,7 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=33
+_sub=34
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -59,7 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '2514c90d323e26646e1b9237051e838cc5e3c17af2dfba735159aeae4d798ebd'
+            'd5981abb1f9f73cc64843eefe1501166b6135ca41f73bb4c5dbe960f739edf6c'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '06609b3456f2ae6a9944a9247d591bc278628b5d0fbe52318962b261bd66b100'
