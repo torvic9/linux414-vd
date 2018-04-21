@@ -7,7 +7,7 @@ This is in most parts the same as the official Manjaro kernel.
 
 ### A few things were added:
 - patches for increasing readhead values
-- graysky's CPU optimisation patch (-march=native by default)
+- graysky's CPU optimisation patch
 - cfs tuning by Zen
 - event poll patch from 4.15
 - Manjaro BFQ
@@ -19,11 +19,8 @@ This is in most parts the same as the official Manjaro kernel.
 - LZ4 kernel compression
 - disabled legacy things
 - BBR congestion control algorithm
-- blk-mq disabled, bfq-sq default scheduler
+- RCU priority boosting
 
-#### Update 28/II/2017:
-- MuQSS replaced by default CFS @ 1000 Hz
-- disabled full refcount validation
 
 
 
