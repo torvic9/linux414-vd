@@ -17,7 +17,7 @@ _bfqdate=20171108
 _bfqdate2=20180404
 _sub=41
 pkgver=${_basekernel}.${_sub}
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -44,9 +44,11 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
         # HHO patches
+        'objtool-20180508-support-GCC-8-cold-subfunctions.patch'
+        'objtool-20180509-support-GCC-8-switch-tables.patch'
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
-	"epoll-20171117-avoid-calling-ep_call_nested()-from-ep_poll_safewake().patch"
+        "epoll-20171117-avoid-calling-ep_call_nested()-from-ep_poll_safewake().patch"
         'block-20180213-optimization-for-classic-polling.patch'
         # ARCH Patches
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
@@ -71,6 +73,8 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
+            'e49f490d460bc010a73682acae00f70e497abee801556194d9e69c708c5d23ed'
+            'cc959eb5e51df4395933c1801f3656671195d1c1e0f73614302bdf2e8debe271'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             'd40540ac578e7b8a30c4bc0e63e9778a84769ec6c73b805bbb09a0eac28cc3f0'
@@ -128,6 +132,8 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   # HHO patches
+  patch -Np1 -i "${srcdir}/objtool-20180508-support-GCC-8-cold-subfunctions.patch"
+  patch -Np1 -i "${srcdir}/objtool-20180509-support-GCC-8-switch-tables.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
   patch -Np1 -i "${srcdir}/epoll-20171117-avoid-calling-ep_call_nested()-from-ep_poll_safewake().patch"

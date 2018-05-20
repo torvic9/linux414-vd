@@ -2,40 +2,38 @@
 # Maintainer : Thomas Baechler <thomas@archlinux.org>
 
 # Maintainer: Philip Müller <philm@manjaro.org>
-# torvic9
 
 _linuxprefix=linux414-vd
 _extramodules=extramodules-4.14-vd
-pkgname=$_linuxprefix-nvidia
+pkgname=$_linuxprefix-nvidia-390xx
 _pkgname=nvidia
-pkgver=396.24
-pkgrel=4
-epoch=1
+pkgver=390.48
+pkgrel=1
 provides=("$_pkgname=$pkgver")
 groups=("$_linuxprefix-extramodules")
 pkgdesc="NVIDIA drivers for linux-vd."
 arch=('x86_64')
 url="http://www.nvidia.com/"
-depends=("$_linuxprefix" "nvidia-utils=${epoch}:${pkgver}")
+depends=("$_linuxprefix" "nvidia-390xx-utils=${pkgver}")
 makedepends=("$_linuxprefix-headers")
 conflicts=('nvidia-96xx' 'nvidia-173xx')
 license=('custom')
 install=nvidia.install
 options=(!strip)
 durl="http://us.download.nvidia.com/XFree86/Linux-x86"
-source=("${durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
-    'nvidia-gcc.patch')
-sha256sums=('41b80d2a4519ac78ac17c02fec976256d2ba5c9618640d2a9be9cb70685b2a9c'
-            '3690cb00066694447c45abf151efafd01fac2f6305c650630d69a0ba9d17dbd6')
+source_x86_64=("${durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
+#		"nvidia-gcc.patch"
+)
+sha256sums_x86_64=('2d4bf72801f101a85df6fd1464021380ad51f5a30df05dadaf1fb546a175a441')
 
-#[[ "$CARCH" = "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
 [[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
 
 prepare() {
     sh "${_pkg}.run" --extract-only
     cd "${_pkg}"
     # patches here
-    patch -Np1 -i "${srcdir}/nvidia-gcc.patch"
+    #msg2 "Patching for gcc..."
+    #patch -Np1 --verbose ../nvidia-gcc.patch
 }
 
 build() {

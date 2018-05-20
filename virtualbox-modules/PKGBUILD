@@ -12,9 +12,9 @@ pkgbase=$_linuxprefix-virtualbox-modules
 pkgname=("$_linuxprefix-virtualbox-host-modules"
          #"$_linuxprefix-virtualbox-guest-modules"
          )
-pkgver=5.2.10
+pkgver=5.2.12
 _pkgver="${pkgver}_OSE"
-pkgrel=6
+pkgrel=2
 arch=('i686' 'x86_64')
 url='http://virtualbox.org'
 license=('GPL')
