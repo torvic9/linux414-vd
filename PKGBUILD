@@ -15,9 +15,9 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=41
+_sub=44
 pkgver=${_basekernel}.${_sub}
-pkgrel=2
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -54,6 +54,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # MANJARO Patches
+        '0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch'
         # Zen temperature
         '0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
@@ -61,7 +62,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            '9899039be6a66e98272120c4c6d50f4029a6b4f9cc95e5ca3555cff513a7581c'
+            '5f262dec41dc6e792123e3dc1f1c5a8dcb8d31629a874559540bf742aa8cc86f'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             'd8c82077f01d4aab9798e437636085a58207117e6574147908d2632f5509d475'
@@ -81,6 +82,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'ac439d96e941e815d0caa77cb3d02b8a4da5aeddfc1557d465bff89360e5927a'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
+            '0d2ac82871694368a563f6082ffffc891cbbb7a5a16ca1d18792fdda95ed4840'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
             'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
             '70cee696fb4204ac7f787cef0742c50637e8bb7f68e2c7bca01aeefff32affc8')
@@ -132,6 +134,7 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
   # HHO patches
+  patch -Np1 -i "${srcdir}/0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch"
   patch -Np1 -i "${srcdir}/objtool-20180508-support-GCC-8-cold-subfunctions.patch"
   patch -Np1 -i "${srcdir}/objtool-20180509-support-GCC-8-switch-tables.patch"
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
@@ -180,7 +183,7 @@ build() {
   cd "${srcdir}/linux-${_basekernel}"
 
   # build!
-  make ${MAKEFLAGS} -j12 LOCALVERSION= bzImage modules
+  make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
 package_linux414-vd() {
