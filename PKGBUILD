@@ -15,7 +15,7 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=45
+_sub=47
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -43,9 +43,13 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         'patch-enable_additional_cpu_optimizations.patch'
         'patch-lowlatency_for_cfs.patch'
         'patch-blkrq.patch'
-        # HHO patches
+        # GCC 8 patches
+        #'objtool-detect-rip-relative-switch-table-references.patch'
+        #'objtool-detect-rip-relative-switch-table-references-part-2.patch'
+        '0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch'
         'objtool-20180508-support-GCC-8-cold-subfunctions.patch'
         'objtool-20180509-support-GCC-8-switch-tables.patch'
+        # HHO patches
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
         "epoll-20171117-avoid-calling-ep_call_nested()-from-ep_poll_safewake().patch"
@@ -54,7 +58,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # MANJARO Patches
-        '0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch'
         # Zen temperature
         '0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
@@ -62,7 +65,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'a3dc848a586043ac1f9392bc18eb9383e7223a4ea94454b66d4f60759b1036f6'
+            '2c4dddd0e4b43b6aefd65dcd99db1d3c063c1a3455450f74bcad05a40c9ed024'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             'd8c82077f01d4aab9798e437636085a58207117e6574147908d2632f5509d475'
@@ -74,6 +77,7 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
             '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
+            '0d2ac82871694368a563f6082ffffc891cbbb7a5a16ca1d18792fdda95ed4840'
             'e49f490d460bc010a73682acae00f70e497abee801556194d9e69c708c5d23ed'
             'cc959eb5e51df4395933c1801f3656671195d1c1e0f73614302bdf2e8debe271'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
@@ -82,7 +86,6 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'ac439d96e941e815d0caa77cb3d02b8a4da5aeddfc1557d465bff89360e5927a'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
-            '0d2ac82871694368a563f6082ffffc891cbbb7a5a16ca1d18792fdda95ed4840'
             'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
             'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
             '70cee696fb4204ac7f787cef0742c50637e8bb7f68e2c7bca01aeefff32affc8')
@@ -133,10 +136,13 @@ prepare() {
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
   patch -Np1 -i "${srcdir}/patch-blkrq.patch"
-  # HHO patches
+  # GCC patches
+  #patch -Np1 -i "${srcdir}/objtool-detect-rip-relative-switch-table-references.patch"
+  #patch -Np1 -i "${srcdir}/objtool-detect-rip-relative-switch-table-references-part-2.patch"
   patch -Np1 -i "${srcdir}/0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch"
   patch -Np1 -i "${srcdir}/objtool-20180508-support-GCC-8-cold-subfunctions.patch"
   patch -Np1 -i "${srcdir}/objtool-20180509-support-GCC-8-switch-tables.patch"
+  # HHO patches
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
   patch -Np1 -i "${srcdir}/epoll-20171117-avoid-calling-ep_call_nested()-from-ep_poll_safewake().patch"

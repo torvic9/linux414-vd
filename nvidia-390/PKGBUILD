@@ -8,7 +8,7 @@ _extramodules=extramodules-4.14-vd
 pkgname=$_linuxprefix-nvidia-390xx
 _pkgname=nvidia
 pkgver=390.59
-pkgrel=3
+pkgrel=4
 provides=("$_pkgname=$pkgver")
 groups=("$_linuxprefix-extramodules")
 pkgdesc="NVIDIA drivers for linux-vd."
