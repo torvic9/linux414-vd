@@ -7,8 +7,8 @@ _linuxprefix=linux414-vd
 _extramodules=extramodules-4.14-vd
 pkgname=$_linuxprefix-nvidia-390xx
 _pkgname=nvidia
-pkgver=390.59
-pkgrel=7
+pkgver=390.67
+pkgrel=1
 provides=("$_pkgname=$pkgver")
 groups=("$_linuxprefix-extramodules")
 pkgdesc="NVIDIA drivers for linux-vd."
@@ -24,7 +24,7 @@ durl="http://us.download.nvidia.com/XFree86/Linux-x86"
 source_x86_64=("${durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
 #		"nvidia-gcc.patch"
 )
-sha256sums_x86_64=('397adf2f725f6d27aaf583431efe8d1182d926930e73f1bfd6f9e6fbc03c0484')
+sha256sums_x86_64=('4d9d4a636d568a93412cd9a2db08c594adef20861707dfdfbd6ae15db3292b26')
 
 [[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
 
