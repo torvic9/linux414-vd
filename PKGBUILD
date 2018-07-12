@@ -15,13 +15,13 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=53
+_sub=55
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
-makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils' 'git' 'rxvt-unicode')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils' 'git' 'rxvt-unicode' 'ccache')
 options=('!strip')
 source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.xz"
         "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.sign"
@@ -61,7 +61,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
 )
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'fa2b79bfa6f07515d2e59687af249552f4e1ee4382d0e7782f82ad3d5308fdd2'
+            '55b5c57492fd07ea2087d570a5d85c62ec58e1887cdc29396a0274a9095e3fd7'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             'bf8728363886797e12acca21ff993d11aafa51dea262399f3c05a57a7c3401ca'
@@ -178,7 +178,7 @@ build() {
   cd "${srcdir}/linux-${_basekernel}"
 
   # build!
-  make ${MAKEFLAGS} LOCALVERSION= bzImage modules
+  ccache make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
 package_linux414-vd() {
