@@ -15,7 +15,7 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=57
+_sub=59
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -23,10 +23,10 @@ url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils' 'git' 'rxvt-unicode' 'ccache')
 options=('!strip')
-source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.sign"
-        "http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        "http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_sub}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_sub}.tar.sign"
+        #"http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        #"http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # stable queue generator
         #'gen-stable-queue-patch.sh'
         # the main kernel config files
@@ -59,9 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.x
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
         '0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
 )
-sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
-            'SKIP'
-            '16c724f5bcea19971f999bcf6c02a4b196a85a52a00841935aca1f553c796d7a'
+sha256sums=('7ec633c661bba941239e340bb35391d356eda541fb4c323d07034d09d05b319b'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             'bf8728363886797e12acca21ff993d11aafa51dea262399f3c05a57a7c3401ca'
@@ -91,10 +89,11 @@ validpgpkeys=(
 prepare() {
   #mv "${srcdir}/linux-${_git}" "${srcdir}/linux-${_basekernel}"
   #mv "${srcdir}/linux-${_basekernel}-${_rc}" "${srcdir}/linux-${_basekernel}"
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/linux-${_basekernel}.${_sub}"
 
   # add upstream patch
-  patch -p1 -i "${srcdir}/patch-${pkgver}"
+  # switch to full package instead of patch
+  #patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
@@ -175,7 +174,7 @@ prepare() {
 }
 
 build() {
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/linux-${_basekernel}.${_sub}"
 
   # build!
   ccache make ${MAKEFLAGS} LOCALVERSION= bzImage modules
@@ -189,7 +188,7 @@ package_linux414-vd() {
   backup=("etc/mkinitcpio.d/${pkgbase}.preset")
   install=${pkgname}.install
 
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/linux-${_basekernel}.${_sub}"
 
   KARCH=x86
 
@@ -257,7 +256,7 @@ package_linux414-vd-headers() {
   pkgdesc="Header files and scripts for building modules for ${pkgbase/linux/Linux} vd kernel"
   provides=("linux-headers=$pkgver")
 
-  cd "${srcdir}/linux-${_basekernel}"
+  cd "${srcdir}/linux-${_basekernel}.${_sub}"
   local _builddir="${pkgdir}/usr/lib/modules/${_kernver}/build"
 
   install -Dt "${_builddir}" -m644 Makefile .config Module.symvers
