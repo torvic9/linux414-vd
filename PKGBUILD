@@ -15,7 +15,7 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=61
+_sub=65
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -59,7 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_su
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
         '0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
 )
-sha256sums=('0d0ec521a771e7d393f25b789a06d9af6e2a5a4837fadc04e7048e03b41c70e8'
+sha256sums=('12980c406bb9be670db58a88464d1c36cafd3c1d4d5ee09e8ecfa71e5eb5a5ec'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '35ee114cee3b513318605fa25a52ed4a621932027be827d7037b2676d0b5bfcc'
@@ -194,6 +194,7 @@ package_linux414-vd() {
 
   # get kernel version
   _kernver="$(make LOCALVERSION= kernelrelease)"
+
   mkdir -p "${pkgdir}"/{boot,lib/{modules,firmware},usr}
   make LOCALVERSION= INSTALL_MOD_PATH="${pkgdir}" modules_install
   cp arch/$KARCH/boot/bzImage "${pkgdir}/boot/vmlinuz-${_basekernel}${_kernelname}-${CARCH}"
@@ -216,7 +217,7 @@ package_linux414-vd() {
   # remove build and source links
   rm "${pkgdir}"/lib/modules/${_kernver}/{source,build}
   # remove the firmware
-  rm -r "${pkgdir}/lib/firmware"
+  #rm -r "${pkgdir}/lib/firmware"
 
   # now we call depmod...
   depmod -b "${pkgdir}" -F System.map "${_kernver}"
