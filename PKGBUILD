@@ -15,7 +15,7 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=71
+_sub=73
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -59,7 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_su
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
         '0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
 )
-sha256sums=('76a4473dbcbd922c23a16130414829a36eb7e2f4e5859bd1b742fffdff907489'
+sha256sums=('999e38141ccc447df7bf7ce10b8803c12b32274b76d3d5400bf3fd88eee0e31e'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '5021566fe330ff0a6ffa64725465e8ad14ef61445953689187635b2dd737498a'
@@ -164,7 +164,7 @@ prepare() {
   # load configuration
   # Configure the kernel. Replace the line below with one of your choice.
   #make menuconfig # CLI menu for configuration
-  #make nconfig # new CLI menu for configuration
+  make nconfig # new CLI menu for configuration
   #make xconfig # X-based configuration
   #make oldconfig # using old config from previous kernel version
   # ... or manually edit .config
