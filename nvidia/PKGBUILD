@@ -8,8 +8,8 @@ _linuxprefix=linux414-vd
 _extramodules=extramodules-4.14-vd
 pkgname=$_linuxprefix-nvidia
 _pkgname=nvidia
-pkgver=410.57
-pkgrel=3
+pkgver=410.66
+pkgrel=1
 epoch=1
 provides=("$_pkgname=$pkgver")
 groups=("$_linuxprefix-extramodules")
@@ -25,8 +25,8 @@ options=(!strip)
 durl="http://us.download.nvidia.com/XFree86/Linux-x86"
 source=("${durl}_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run"
     'nvidia-gcc.patch')
-sha256sums=('1ad40d83ec712843c1b5593949abefc9093399fb26a418ae9a571fbd1d9b228e'
-            '6f5fd71e1548dabdf4d529dba3b3a297c93787209e2ccad14d064bc70142b670')
+sha256sums=('c4e297ed93341841c7ccb32569c179baecbb6ea253215cbc3668a51d729227cd'
+            'efd0eeb09c4c2ecfc22a43abbdda87827a40b0d0880cdefaea38c02967863877')
 
 [[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
 
