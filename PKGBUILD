@@ -15,7 +15,7 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=79
+_sub=81
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -59,7 +59,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_su
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
         '0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
 )
-sha256sums=('5619071eceb27f903d2fce1784223796bfbe25528f9690273cdfe82fdd9b933a'
+sha256sums=('4b36dfd053844ef0617799d432eed67aa4795d3403216d6789288aa7a0e75bde'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '5021566fe330ff0a6ffa64725465e8ad14ef61445953689187635b2dd737498a'
