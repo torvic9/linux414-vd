@@ -15,14 +15,14 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=87
+_sub=91
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
-makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils' 'git' 'rxvt-unicode' 'ccache')
-options=('!strip')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils' 'git' 'rxvt-unicode')
+options=('!strip' '!buildflags')
 source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_sub}.tar.xz"
         "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_sub}.tar.sign"
         #"http://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
@@ -42,9 +42,6 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_su
         #'init-20160927-dev-root-proc-mount-fix.patch'
         'patch-enable_additional_cpu_optimizations.patch'
         'patch-lowlatency_for_cfs.patch'
-        'patch-blkrq.patch'
-        # GCC 8 patches
-        #
         # HHO patches
         'mm-20171004-increase-maximum-readahead-window.patch'
         'epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch'
@@ -59,11 +56,11 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_su
         '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
         '0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
 )
-sha256sums=('36744d7d657dab23e455a8096e4ad2dc6a25f25fdce062d8a8bdf4499112e125'
+sha256sums=('6a587c8b4160918efa082b0c2eda8c2db0f50d8814ad1d1ac94be1edf66ca6a9'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '19970625b2ae8b0b08299881a8d6c8b6e5a2703a5e64a1165a2bff01bab0c6ec'
-            'b2b695dd3c7dc1dd3a0ead5d8d48feac1ccf481240e159dd5305d937b2fd7a14'
+            '64a7658a4dec23e5ed7b66d2efbe43f19f71218d3370ca7f8aca54271fea62b6'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -71,7 +68,6 @@ sha256sums=('36744d7d657dab23e455a8096e4ad2dc6a25f25fdce062d8a8bdf4499112e125'
             'f51c1b8709bf9f0e642ebd12d48ee1ac41047902a87cf6a783ca794cfa5142dc'
             '8b00041911e67654b0bd9602125853a1a94f6155c5cac4f886507554c8324ee8'
             '1e1459e8d3685d72a1a9eb72f60c684bd6d43e21a7b7d51622ab207384537dc5'
-            '0c25460731dd82fbd533b32df833b98befd3d2f603cdb97a2ded125e4a6c2239'
             'c1f4e8be6f2a2ebc10c2481bce21c6e5b20eb99f70ec79b43b9e31c1ea89231f'
             'b8e07c0b517cec85ddbf305097148b66a67cb82f0dd141cb7ad3ee54eb37c54e'
             'd40540ac578e7b8a30c4bc0e63e9778a84769ec6c73b805bbb09a0eac28cc3f0'
@@ -128,9 +124,6 @@ prepare() {
   # vd patches
   patch -Np1 -i "${srcdir}/patch-enable_additional_cpu_optimizations.patch"
   patch -Np1 -i "${srcdir}/patch-lowlatency_for_cfs.patch"
-  patch -Np1 -i "${srcdir}/patch-blkrq.patch"
-  # GCC patches
-  #
   # HHO patches
   patch -Np1 -i "${srcdir}/mm-20171004-increase-maximum-readahead-window.patch"
   patch -Np1 -i "${srcdir}/epoll-20171031-remove-ep_call_nested-from-ep_eventpoll_poll.patch"
@@ -138,7 +131,7 @@ prepare() {
   patch -Np1 -i "${srcdir}/block-20180213-optimization-for-classic-polling.patch"
 
   if [ "${CARCH}" = "x86_64" ]; then
-    cat "${srcdir}/config.vd" > ./.config
+    cat "${srcdir}/config.x200" > ./.config
   else
     cat "${srcdir}/config" > ./.config
   fi
@@ -178,7 +171,7 @@ build() {
   cd "${srcdir}/linux-${_basekernel}.${_sub}"
 
   # build!
-  ccache make ${MAKEFLAGS} LOCALVERSION= bzImage modules
+  make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
 package_linux414-vd() {
