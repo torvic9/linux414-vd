@@ -15,7 +15,7 @@ _basever=414
 _bfq=v8r12
 _bfqdate=20171108
 _bfqdate2=20180404
-_sub=91
+_sub=93
 pkgver=${_basekernel}.${_sub}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -52,15 +52,15 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.${_su
         '0001-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch'
         # MANJARO Patches
         # Zen temperature
-        '0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
-        '0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
-        '0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
+        #'0001-zen-temp.patch::https://patchwork.kernel.org/patch/9941409/raw/'
+        #'0002-zen-temp.patch::https://patchwork.kernel.org/patch/9941421/raw/'
+        #'0003-zen-temp.patch::https://patchwork.kernel.org/patch/9941427/raw/'
 )
-sha256sums=('6a587c8b4160918efa082b0c2eda8c2db0f50d8814ad1d1ac94be1edf66ca6a9'
+sha256sums=('bb125fb204f7089782e179126121dd0f0aad9f02b7517ce3744982254c221bad'
             'SKIP'
             'a1f34dbcbda9931c01e71fec54f97f2b17165ac55c3cbf77c0389b025d3686ce'
             '19970625b2ae8b0b08299881a8d6c8b6e5a2703a5e64a1165a2bff01bab0c6ec'
-            '64a7658a4dec23e5ed7b66d2efbe43f19f71218d3370ca7f8aca54271fea62b6'
+            'b76cef85568730ff39629310236594a83d06b0cb1cde456d7e5a91ee6fe2c81c'
             '09350ab57ed917cb569703f73e4350e5b2fc2e1dce2eea92d5f0816b2f0b2381'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '26780f590adfa76700e20e67f7783eca9ef72157baf95883b489f20528eecc7d'
@@ -73,10 +73,7 @@ sha256sums=('6a587c8b4160918efa082b0c2eda8c2db0f50d8814ad1d1ac94be1edf66ca6a9'
             'd40540ac578e7b8a30c4bc0e63e9778a84769ec6c73b805bbb09a0eac28cc3f0'
             'ac439d96e941e815d0caa77cb3d02b8a4da5aeddfc1557d465bff89360e5927a'
             '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
-            'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148'
-            'ee46e4c25b58d1dbd7db963382cf37aeae83dd0b4c13a59bdd11153dc324d8e8'
-            'cd463af7193bcf864c42e95d804976a627ac11132886f25e04dfc2471c28bf6c'
-            '70cee696fb4204ac7f787cef0742c50637e8bb7f68e2c7bca01aeefff32affc8')
+            'c08d12c699398ef88b764be1837b9ee11f2efd3188bd1bf4e8f85dfbeee58148')
 
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
@@ -100,9 +97,9 @@ prepare() {
   #patch -Np1 -i "${srcdir}/prepatch-${_basekernel}-${_ser}"
 
   # Add support for temperature sensors on Family 17h (Ryzen) processors.
-  patch -Np1 -i "${srcdir}/0001-zen-temp.patch"
-  patch -Np1 -i "${srcdir}/0002-zen-temp.patch"
-  patch -Np1 -i "${srcdir}/0003-zen-temp.patch"
+  #patch -Np1 -i "${srcdir}/0001-zen-temp.patch"
+  #patch -Np1 -i "${srcdir}/0002-zen-temp.patch"
+  #patch -Np1 -i "${srcdir}/0003-zen-temp.patch"
 
   # Arch patches
   patch -Np1 -i "${srcdir}/0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch"
@@ -158,7 +155,7 @@ prepare() {
   # load configuration
   # Configure the kernel. Replace the line below with one of your choice.
   #make menuconfig # CLI menu for configuration
-  make nconfig # new CLI menu for configuration
+  #make nconfig # new CLI menu for configuration
   #make xconfig # X-based configuration
   #make oldconfig # using old config from previous kernel version
   # ... or manually edit .config
